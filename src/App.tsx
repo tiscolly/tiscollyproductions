@@ -378,7 +378,7 @@ function InitialLoader() {
       <motion.div 
         initial={{ width: 0 }}
         animate={{ width: 200 }}
-        transition={{ duration: 3, ease: "easeInOut" }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
         className="h-px bg-gradient-to-r from-transparent via-white to-transparent mt-12"
       />
     </motion.div>
@@ -409,7 +409,7 @@ function AppContent() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsInitialLoading(false);
-    }, 4000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -468,6 +468,7 @@ function AppContent() {
                 src="https://i.postimg.cc/438q5pxc/logo-trasparent-white.png" 
                 alt="Tiscolly Productions" 
                 className="h-8 md:h-10 w-auto object-contain"
+                loading="lazy"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
@@ -542,7 +543,7 @@ function AppContent() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 glass backdrop-blur-3xl flex flex-col items-center justify-center gap-8 lg:hidden"
+            className="fixed inset-0 z-40 glass backdrop-blur-lg md:backdrop-blur-3xl flex flex-col items-center justify-center gap-8 lg:hidden"
           >
             <div className="mb-8">
               <img 
@@ -1522,8 +1523,8 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
       >
         {/* Background with Glow - Enhanced */}
         <motion.div style={{ y }} className="absolute inset-0 z-0">
-          {/* YouTube Background Video */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden opacity-40">
+          {/* YouTube Background Video - Hidden on mobile for performance */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden opacity-40 hidden md:block">
             <iframe
               className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2"
               src="https://www.youtube.com/embed/gYgkvB4Y7gA?si=IV9utfBDfhIEDzZP&autoplay=1&mute=1&controls=0&loop=1&playlist=gYgkvB4Y7gA&rel=0&enablejsapi=1"
@@ -1534,6 +1535,12 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
               allowFullScreen
             ></iframe>
           </div>
+          
+          {/* Mobile Background Image Fallback */}
+          <div 
+            className="absolute inset-0 md:hidden bg-cover bg-center opacity-30"
+            style={{ backgroundImage: 'url(https://i.postimg.cc/k5z1HtF7/WALO-28.jpg)' }}
+          />
           
           <div className="absolute inset-0 bg-dark/40" />
           
