@@ -11,8 +11,15 @@ import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 're
 function CustomCursor() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Check if device has a fine pointer (mouse)
+    const isTouchDevice = !window.matchMedia('(pointer: fine)').matches;
+    if (isTouchDevice) return;
+
+    setIsVisible(true);
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
@@ -33,6 +40,8 @@ function CustomCursor() {
       window.removeEventListener('mouseover', handleMouseOver);
     };
   }, []);
+
+  if (!isVisible) return null;
 
   return (
     <motion.div
@@ -449,14 +458,19 @@ function AppContent() {
             exit={{ opacity: 0, y: -20 }}
             className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-6 md:px-12 bg-dark/50 backdrop-blur-md"
           >
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('home')}>
+            <motion.div 
+              className="flex items-center gap-3 cursor-pointer" 
+              onClick={() => scrollToSection('home')}
+              whileHover={{ scale: 1.1, rotate: [-1, 1, -1] }}
+              transition={{ duration: 0.3 }}
+            >
               <img 
                 src="https://i.postimg.cc/438q5pxc/logo-trasparent-white.png" 
                 alt="Tiscolly Productions" 
                 className="h-8 md:h-10 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
-            </div>
+            </motion.div>
 
             {/* Center Nav - Glass Pills */}
             <div className="hidden lg:flex items-center gap-1 p-1 glass rounded-full relative">
@@ -535,6 +549,7 @@ function AppContent() {
                 src="https://i.postimg.cc/438q5pxc/logo-trasparent-white.png" 
                 alt="Tiscolly Productions" 
                 className="h-12 w-auto object-contain"
+                loading="lazy"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -602,6 +617,7 @@ function AppContent() {
                   src="https://i.postimg.cc/438q5pxc/logo-trasparent-white.png" 
                   alt="Tiscolly Productions" 
                   className="h-10 md:h-12 w-auto object-contain"
+                  loading="lazy"
                   referrerPolicy="no-referrer"
                 />
               </motion.div>
@@ -803,6 +819,7 @@ function AboutPage() {
                 src="https://i.postimg.cc/nh5gy5nL/WALO-32.jpg" 
                 alt="Visionary" 
                 className="w-full h-full object-cover opacity-80"
+                loading="lazy"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent" />
@@ -1053,6 +1070,7 @@ function HomePortfolio() {
                   src={project.image} 
                   alt={project.title} 
                   className="w-full h-full object-cover opacity-60 group-hover:scale-110 group-hover:opacity-80 transition-all duration-700"
+                  loading="lazy"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent opacity-60" />
@@ -1237,6 +1255,7 @@ function CategorySection({ category }: { category: string }) {
                 src={project.image} 
                 alt={project.title} 
                 className="w-full h-full object-cover opacity-60 group-hover/card:scale-105 transition-transform duration-[2s]"
+                loading="lazy"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/40 to-transparent" />
@@ -1316,6 +1335,7 @@ function CategorySection({ category }: { category: string }) {
                 src={project.image} 
                 alt="Trailer" 
                 className={`w-full h-full object-cover opacity-60 transition-transform duration-700 ${project.videoUrl ? 'group-hover:scale-110' : ''}`}
+                loading="lazy"
                 referrerPolicy="no-referrer"
               />
               {project.videoUrl && project.category !== 'GRAPHICS' && project.category !== 'PHOTO' && (
@@ -1357,7 +1377,6 @@ function ContactSection() {
     offset: ["start end", "end start"]
   });
 
-  const mapY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
   const dotsY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
 
   return (
@@ -1371,20 +1390,6 @@ function ContactSection() {
           y: dotsY
         }} 
       />
-
-      {/* Faded Rome Map Background with Parallax */}
-      <motion.div 
-        style={{ y: mapY }}
-        className="absolute right-[-5%] top-0 bottom-0 w-full md:w-[60%] opacity-[0.12] pointer-events-none z-0 overflow-hidden"
-      >
-        <img 
-          src="https://i.postimg.cc/mkscw9qS/1734.jpg" 
-          alt="Rome Map" 
-          className="w-full h-full object-cover grayscale invert contrast-125 blur-[3px] scale-125"
-          style={{ maskImage: 'radial-gradient(circle at 60% 50%, black 0%, transparent 70%)' }}
-          referrerPolicy="no-referrer"
-        />
-      </motion.div>
       
       <div className="container mx-auto relative z-10">
         {/* Header Section */}
@@ -1763,6 +1768,7 @@ function AboutSection() {
                 src="https://i.postimg.cc/nh5gy5nL/WALO-32.jpg" 
                 alt="Visionary" 
                 className="w-full h-full object-cover opacity-80"
+                loading="lazy"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-transparent" />
