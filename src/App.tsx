@@ -8,6 +8,17 @@ import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionV
 import { Play, ArrowRight, Menu, X, Instagram, Youtube, Music2, Twitter, Facebook, ChevronLeft, ChevronRight, MapPin, Phone, Mail } from 'lucide-react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  return isMobile;
+}
+
 function CustomCursor() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -297,7 +308,7 @@ function CookieConsent({ isInitialLoading }: { isInitialLoading: boolean }) {
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
           className="fixed bottom-12 left-1/2 -translate-x-1/2 w-[calc(100%-3rem)] md:w-[450px] z-[100]"
         >
-          <div className="glass backdrop-blur-3xl p-8 rounded-[32px] border border-white/10 shadow-2xl relative overflow-hidden group">
+          <div className="glass backdrop-blur-lg md:backdrop-blur-3xl p-8 rounded-[32px] border border-white/10 shadow-2xl relative overflow-hidden group">
             {/* Animated background glow */}
             <div className="absolute -right-20 -top-20 w-40 h-40 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-colors duration-700" />
             
@@ -344,6 +355,8 @@ function CookieConsent({ isInitialLoading }: { isInitialLoading: boolean }) {
 }
 
 function InitialLoader() {
+  const isMobile = useIsMobile();
+  
   return (
     <motion.div 
       initial={{ opacity: 1 }}
@@ -355,9 +368,9 @@ function InitialLoader() {
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ 
-          duration: 1.5, 
+          duration: isMobile ? 1 : 1.5, 
           ease: [0.22, 1, 0.36, 1],
-          repeat: Infinity,
+          repeat: isMobile ? 0 : Infinity,
           repeatType: "reverse"
         }}
         className="relative"
@@ -368,11 +381,13 @@ function InitialLoader() {
           className="h-20 md:h-32 w-auto object-contain"
           referrerPolicy="no-referrer"
         />
-        <motion.div 
-          className="absolute inset-0 bg-white/10 blur-2xl -z-10 rounded-full"
-          animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0.8, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
+        {!isMobile && (
+          <motion.div 
+            className="absolute inset-0 bg-white/10 blur-2xl -z-10 rounded-full"
+            animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0.8, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        )}
       </motion.div>
       
       <motion.div 
@@ -386,6 +401,7 @@ function InitialLoader() {
 }
 
 function AppContent() {
+  const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
@@ -461,7 +477,7 @@ function AppContent() {
             <motion.div 
               className="flex items-center gap-3 cursor-pointer" 
               onClick={() => scrollToSection('home')}
-              whileHover={{ scale: 1.1, rotate: [-1, 1, -1] }}
+              whileHover={isMobile ? {} : { scale: 1.1, rotate: [-1, 1, -1] }}
               transition={{ duration: 0.3 }}
             >
               <img 
@@ -643,19 +659,19 @@ function AppContent() {
               <h4 className="text-[10px] font-bold uppercase tracking-widest text-white/20">Social</h4>
               <div className="flex gap-6 justify-end md:justify-start">
                 <motion.a 
-                  whileHover={{ y: -5, scale: 1.1 }}
+                  whileHover={isMobile ? {} : { y: -5, scale: 1.1 }}
                   href="#" className="text-white/40 hover:text-white transition-colors"
                 >
                   <Instagram size={20} />
                 </motion.a>
                 <motion.a 
-                  whileHover={{ y: -5, scale: 1.1 }}
+                  whileHover={isMobile ? {} : { y: -5, scale: 1.1 }}
                   href="#" className="text-white/40 hover:text-white transition-colors"
                 >
                   <Youtube size={20} />
                 </motion.a>
                 <motion.a 
-                  whileHover={{ y: -5, scale: 1.1 }}
+                  whileHover={isMobile ? {} : { y: -5, scale: 1.1 }}
                   href="#" className="text-white/40 hover:text-white transition-colors"
                 >
                   <Music2 size={20} />
@@ -722,6 +738,7 @@ function Home({ isInitialLoading, scrollToSection }: { isInitialLoading: boolean
 
 function AboutPage() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -812,8 +829,8 @@ function AboutPage() {
             <motion.div 
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              style={{ x: imageX, y: imageY }}
-              whileHover={{ scale: 1.02 }}
+              style={isMobile ? {} : { x: imageX, y: imageY }}
+              whileHover={isMobile ? {} : { scale: 1.02 }}
               className="relative w-[360px] h-[500px] rounded-[50px] overflow-hidden shadow-2xl z-20 bg-zinc-900 border border-white/10 transition-shadow duration-500 hover:shadow-white/5"
             >
               <img 
@@ -828,10 +845,10 @@ function AboutPage() {
 
             {/* Floating Widgets - Hidden on mobile for cleaner look */}
             <motion.div 
-              animate={{ y: [0, -20, 0] }}
+              animate={isMobile ? {} : { y: [0, -20, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              style={{ x: basedX, y: basedY }}
-              whileHover={{ scale: 1.1, zIndex: 40 }}
+              style={isMobile ? {} : { x: basedX, y: basedY }}
+              whileHover={isMobile ? {} : { scale: 1.1, zIndex: 40 }}
               className="absolute left-[-40px] top-[100px] w-[220px] p-8 bg-zinc-800/90 backdrop-blur-xl rounded-[32px] border border-white/10 shadow-2xl z-30 cursor-default hidden md:block"
             >
               <div className="flex justify-between items-center mb-6">
@@ -844,10 +861,10 @@ function AboutPage() {
             </motion.div>
 
             <motion.div 
-              animate={{ y: [0, 20, 0] }}
+              animate={isMobile ? {} : { y: [0, 20, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              style={{ x: contactsX, y: contactsY }}
-              whileHover={{ scale: 1.05, zIndex: 40 }}
+              style={isMobile ? {} : { x: contactsX, y: contactsY }}
+              whileHover={isMobile ? {} : { scale: 1.05, zIndex: 40 }}
               className="absolute right-[-20px] bottom-[80px] w-[300px] p-8 bg-red-600 rounded-[32px] shadow-2xl z-30 cursor-default hidden md:block"
             >
               <div className="flex justify-between items-center mb-6">
@@ -860,10 +877,10 @@ function AboutPage() {
             </motion.div>
 
             <motion.div 
-              animate={{ x: [0, 15, 0] }}
+              animate={isMobile ? {} : { x: [0, 15, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              style={{ x: followX, y: followY }}
-              whileHover={{ scale: 1.1, zIndex: 40 }}
+              style={isMobile ? {} : { x: followX, y: followY }}
+              whileHover={isMobile ? {} : { scale: 1.1, zIndex: 40 }}
               className="absolute right-[10px] top-[50px] w-[200px] p-8 bg-white rounded-[32px] shadow-2xl z-30 cursor-default hidden md:block"
             >
               <div className="flex justify-between items-center mb-8">
@@ -871,13 +888,13 @@ function AboutPage() {
                 <div className="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">LIVE</div>
               </div>
               <div className="flex justify-between items-center">
-                <motion.a whileHover={{ scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
+                <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Instagram size={24} />
                 </motion.a>
-                <motion.a whileHover={{ scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
+                <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Youtube size={24} />
                 </motion.a>
-                <motion.a whileHover={{ scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
+                <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Music2 size={24} />
                 </motion.a>
               </div>
@@ -897,7 +914,7 @@ function AboutPage() {
                 key={item.title}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                whileHover={{ 
+                whileHover={isMobile ? {} : { 
                   y: -10,
                   transition: { duration: 0.3 }
                 }}
@@ -910,7 +927,7 @@ function AboutPage() {
                 
                 <div className="relative z-10">
                   <motion.div 
-                    animate={{ y: [0, -5, 0] }}
+                    animate={isMobile ? {} : { y: [0, -5, 0] }}
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
                     className="text-3xl mb-6 block"
                   >
@@ -937,6 +954,7 @@ function AboutPage() {
 
 function ShowreelSection() {
   const containerRef = useRef(null);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -968,22 +986,26 @@ function ShowreelSection() {
 
       <div className="relative max-w-6xl mx-auto px-4 isolate">
         {/* Enhanced Floating Background Elements */}
-        <motion.div 
-          style={{ y: useTransform(scrollYProgress, [0, 1], [150, -150]) }}
-          className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-red-600/30 rounded-full blur-[100px] z-0"
-        />
-        <motion.div 
-          style={{ y: useTransform(scrollYProgress, [0, 1], [-150, 150]) }}
-          className="absolute -bottom-40 -right-20 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-[120px] z-0"
-        />
-        <motion.div 
-          style={{ y: useTransform(scrollYProgress, [0, 1], [50, -50]) }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-purple-600/20 rounded-full blur-[150px] z-0"
-        />
+        {!isMobile && (
+          <>
+            <motion.div 
+              style={{ y: useTransform(scrollYProgress, [0, 1], [150, -150]) }}
+              className="absolute -top-20 -left-20 w-[400px] h-[400px] bg-red-600/30 rounded-full blur-[100px] z-0"
+            />
+            <motion.div 
+              style={{ y: useTransform(scrollYProgress, [0, 1], [-150, 150]) }}
+              className="absolute -bottom-40 -right-20 w-[500px] h-[500px] bg-blue-600/30 rounded-full blur-[120px] z-0"
+            />
+            <motion.div 
+              style={{ y: useTransform(scrollYProgress, [0, 1], [50, -50]) }}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-purple-600/20 rounded-full blur-[150px] z-0"
+            />
+          </>
+        )}
 
         {/* Floating Video Container */}
         <motion.div 
-          style={{ y, rotate, scale }}
+          style={isMobile ? {} : { y, rotate, scale }}
           className="relative aspect-video w-full rounded-[40px] overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.05)] border border-white/10 bg-zinc-900 group z-10"
         >
           <iframe 
@@ -1012,6 +1034,7 @@ function ShowreelSection() {
 
 function HomePortfolio() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   
   // Helper to parse date for sorting
   const parseDate = (dateStr: string) => {
@@ -1070,7 +1093,7 @@ function HomePortfolio() {
                 <img 
                   src={project.image} 
                   alt={project.title} 
-                  className="w-full h-full object-cover opacity-60 group-hover:scale-110 group-hover:opacity-80 transition-all duration-700"
+                  className={`w-full h-full object-cover opacity-60 transition-all duration-700 ${isMobile ? '' : 'group-hover:scale-110 group-hover:opacity-80'}`}
                   loading="lazy"
                   referrerPolicy="no-referrer"
                 />
@@ -1192,6 +1215,7 @@ function PortfolioSection() {
 }
 
 function CategorySection({ category }: { category: string }) {
+  const isMobile = useIsMobile();
   const filteredProjects = PROJECTS.filter(p => p.category === category);
   const [activeProject, setActiveProject] = useState(0);
   const project = filteredProjects[activeProject] || filteredProjects[0];
@@ -1221,24 +1245,28 @@ function CategorySection({ category }: { category: string }) {
       <div className="md:h-[650px] relative flex flex-col md:flex-row glass-dark rounded-[40px] overflow-hidden border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.8)] group/card">
         {/* Liquid Background Effect */}
         <div className="absolute inset-0 opacity-30 pointer-events-none overflow-hidden">
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.2, 1],
-              rotate: [0, 5, 0],
-              x: [0, 20, 0]
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute -top-[20%] -right-[20%] w-[60%] h-[60%] bg-blue-600/20 rounded-full blur-[120px]"
-          />
-          <motion.div 
-            animate={{ 
-              scale: [1, 1.3, 1],
-              rotate: [0, -8, 0],
-              x: [0, -30, 0]
-            }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear", delay: 2 }}
-            className="absolute -bottom-[20%] -left-[20%] w-[70%] h-[70%] bg-red-600/10 rounded-full blur-[150px]"
-          />
+          {!isMobile && (
+            <>
+              <motion.div 
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 5, 0],
+                  x: [0, 20, 0]
+                }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="absolute -top-[20%] -right-[20%] w-[60%] h-[60%] bg-blue-600/20 rounded-full blur-[120px]"
+              />
+              <motion.div 
+                animate={{ 
+                  scale: [1, 1.3, 1],
+                  rotate: [0, -8, 0],
+                  x: [0, -30, 0]
+                }}
+                transition={{ duration: 25, repeat: Infinity, ease: "linear", delay: 2 }}
+                className="absolute -bottom-[20%] -left-[20%] w-[70%] h-[70%] bg-red-600/10 rounded-full blur-[150px]"
+              />
+            </>
+          )}
         </div>
 
         {/* Main Content Area */}
@@ -1255,7 +1283,7 @@ function CategorySection({ category }: { category: string }) {
               <img 
                 src={project.image} 
                 alt={project.title} 
-                className="w-full h-full object-cover opacity-60 group-hover/card:scale-105 transition-transform duration-[2s]"
+                className={`w-full h-full object-cover opacity-60 transition-transform duration-[2s] ${isMobile ? '' : 'group-hover/card:scale-105'}`}
                 loading="lazy"
                 referrerPolicy="no-referrer"
               />
@@ -1373,6 +1401,7 @@ function CategorySection({ category }: { category: string }) {
 
 function ContactSection() {
   const containerRef = useRef(null);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
@@ -1388,7 +1417,7 @@ function ContactSection() {
         style={{ 
           backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px)', 
           backgroundSize: '30px 30px',
-          y: dotsY
+          y: isMobile ? "0%" : dotsY
         }} 
       />
       
@@ -1504,6 +1533,7 @@ function ContactSection() {
 function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: boolean, scrollToSection: (id: string) => void }) {
   const containerRef = useRef(null);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -1522,7 +1552,7 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
         className="relative h-screen flex items-center overflow-hidden"
       >
         {/* Background with Glow - Enhanced */}
-        <motion.div style={{ y }} className="absolute inset-0 z-0">
+        <motion.div style={{ y: isMobile ? "0%" : y }} className="absolute inset-0 z-0">
           {/* YouTube Background Video - Hidden on mobile for performance */}
           <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden opacity-40 hidden md:block">
             <iframe
@@ -1568,7 +1598,7 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
                       <motion.span
                         key={i}
                         className="inline-block"
-                        whileHover={{ 
+                        whileHover={isMobile ? {} : { 
                           fontStyle: 'italic', 
                           fontWeight: '900',
                           scale: 1.1,
@@ -1586,7 +1616,7 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
                       <motion.span
                         key={i}
                         className="inline-block"
-                        whileHover={{ 
+                        whileHover={isMobile ? {} : { 
                           fontStyle: 'italic', 
                           fontWeight: '900',
                           scale: 1.1,
@@ -1604,7 +1634,7 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
                       <motion.span
                         key={i}
                         className="inline-block"
-                        whileHover={{ 
+                        whileHover={isMobile ? {} : { 
                           fontStyle: 'italic', 
                           fontWeight: '900',
                           scale: 1.1,
@@ -1639,7 +1669,7 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
                     className="px-10 py-5 bg-white text-dark rounded-full font-bold flex items-center gap-3 hover:scale-105 transition-transform group"
                   >
                     Explore Portfolio 
-                    <motion.span animate={{ x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
+                    <motion.span animate={isMobile ? {} : { x: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
                       <ArrowRight size={22} />
                     </motion.span>
                   </button>
@@ -1653,7 +1683,7 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
         <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-dark to-transparent pointer-events-none" />
         
         {/* Animated Light Streaks */}
-        {[1, 2, 3].map((i) => (
+        {!isMobile && [1, 2, 3].map((i) => (
           <motion.div 
             key={i}
             animate={{ 
@@ -1682,6 +1712,7 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
 
 function AboutSection() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -1767,8 +1798,8 @@ function AboutSection() {
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              style={{ x: imageX, y: imageY }}
-              whileHover={{ scale: 1.02 }}
+              style={isMobile ? {} : { x: imageX, y: imageY }}
+              whileHover={isMobile ? {} : { scale: 1.02 }}
               className="relative w-[320px] h-[450px] rounded-[40px] overflow-hidden shadow-2xl z-20 bg-zinc-900 border border-white/10 transition-shadow duration-500 hover:shadow-white/5"
             >
               <img 
@@ -1783,10 +1814,10 @@ function AboutSection() {
 
             {/* Floating Widgets - Hidden on mobile for cleaner look */}
             <motion.div 
-              animate={{ y: [0, -15, 0] }}
+              animate={isMobile ? {} : { y: [0, -15, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              style={{ x: basedX, y: basedY }}
-              whileHover={{ scale: 1.1, zIndex: 40 }}
+              style={isMobile ? {} : { x: basedX, y: basedY }}
+              whileHover={isMobile ? {} : { scale: 1.1, zIndex: 40 }}
               className="absolute left-[-20px] top-[150px] w-[200px] p-6 bg-zinc-800/90 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl z-30 cursor-default hidden md:block"
             >
               <div className="flex justify-between items-center mb-4">
@@ -1799,10 +1830,10 @@ function AboutSection() {
             </motion.div>
 
             <motion.div 
-              animate={{ y: [0, 15, 0] }}
+              animate={isMobile ? {} : { y: [0, 15, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              style={{ x: contactsX, y: contactsY }}
-              whileHover={{ scale: 1.05, zIndex: 40 }}
+              style={isMobile ? {} : { x: contactsX, y: contactsY }}
+              whileHover={isMobile ? {} : { scale: 1.05, zIndex: 40 }}
               className="absolute right-[0px] bottom-[100px] w-[280px] p-6 bg-red-600 rounded-3xl shadow-2xl z-30 cursor-default hidden md:block"
             >
               <div className="flex justify-between items-center mb-4">
@@ -1815,10 +1846,10 @@ function AboutSection() {
             </motion.div>
 
             <motion.div 
-              animate={{ x: [0, 10, 0] }}
+              animate={isMobile ? {} : { x: [0, 10, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              style={{ x: followX, y: followY }}
-              whileHover={{ scale: 1.1, zIndex: 40 }}
+              style={isMobile ? {} : { x: followX, y: followY }}
+              whileHover={isMobile ? {} : { scale: 1.1, zIndex: 40 }}
               className="absolute right-[20px] top-[80px] w-[180px] p-6 bg-white rounded-3xl shadow-2xl z-30 cursor-default hidden md:block"
             >
               <div className="flex justify-between items-center mb-6">
@@ -1826,13 +1857,13 @@ function AboutSection() {
                 <div className="bg-red-600 text-white text-[8px] px-1.5 py-0.5 rounded-full font-bold">LIVE</div>
               </div>
               <div className="flex justify-between items-center">
-                <motion.a whileHover={{ scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
+                <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Instagram size={20} />
                 </motion.a>
-                <motion.a whileHover={{ scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
+                <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Youtube size={20} />
                 </motion.a>
-                <motion.a whileHover={{ scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
+                <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Music2 size={20} />
                 </motion.a>
               </div>
