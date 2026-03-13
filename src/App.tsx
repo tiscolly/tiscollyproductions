@@ -831,7 +831,7 @@ function AboutPage() {
               animate={{ opacity: 1, scale: 1 }}
               style={isMobile ? {} : { x: imageX, y: imageY }}
               whileHover={isMobile ? {} : { scale: 1.02 }}
-              className="relative w-[360px] h-[500px] rounded-[50px] overflow-hidden shadow-2xl z-20 bg-zinc-900 border border-white/10 transition-shadow duration-500 hover:shadow-white/5"
+              className="relative w-full max-w-[420px] h-[550px] rounded-[50px] overflow-hidden shadow-2xl z-20 bg-zinc-900 border border-white/10 transition-shadow duration-500 hover:shadow-white/5"
             >
               <img 
                 src="https://i.postimg.cc/nh5gy5nL/WALO-32.jpg" 
@@ -1800,7 +1800,7 @@ function AboutSection() {
               viewport={{ once: true }}
               style={isMobile ? {} : { x: imageX, y: imageY }}
               whileHover={isMobile ? {} : { scale: 1.02 }}
-              className="relative w-[320px] h-[450px] rounded-[40px] overflow-hidden shadow-2xl z-20 bg-zinc-900 border border-white/10 transition-shadow duration-500 hover:shadow-white/5"
+              className="relative w-full max-w-[380px] h-[500px] rounded-[40px] overflow-hidden shadow-2xl z-20 bg-zinc-900 border border-white/10 transition-shadow duration-500 hover:shadow-white/5"
             >
               <img 
                 src="https://i.postimg.cc/nh5gy5nL/WALO-32.jpg" 
