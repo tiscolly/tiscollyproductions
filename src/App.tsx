@@ -9,10 +9,9 @@ import { Play, ArrowRight, Menu, X, Instagram, Youtube, Music2, Twitter, Faceboo
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -30,6 +29,7 @@ function CustomCursor() {
     if (isTouchDevice) return;
 
     setIsVisible(true);
+    document.body.classList.add('custom-cursor-active');
 
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
@@ -49,6 +49,7 @@ function CustomCursor() {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
+      document.body.classList.remove('custom-cursor-active');
     };
   }, []);
 
@@ -359,9 +360,10 @@ function InitialLoader() {
   
   return (
     <motion.div 
+      key="initial-loader"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1, ease: "easeInOut" }}
+      transition={{ duration: isMobile ? 0.5 : 1, ease: "easeInOut" }}
       className="fixed inset-0 z-[200] bg-dark flex flex-col items-center justify-center"
     >
       <motion.div
@@ -462,7 +464,7 @@ function AppContent() {
       <CookieConsent isInitialLoading={isInitialLoading} />
       
       <AnimatePresence>
-        {isInitialLoading && <InitialLoader />}
+        {isInitialLoading && <InitialLoader key="initial-loader" />}
       </AnimatePresence>
       
       {/* Navigation */}
@@ -1583,7 +1585,7 @@ function HeroSection({ isInitialLoading, scrollToSection }: { isInitialLoading: 
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
+              transition={{ duration: isMobile ? 0.5 : 1 }}
               className="relative z-10 container mx-auto px-6 md:px-12 flex flex-col items-center text-center pt-20"
             >
               <div className="max-w-5xl">

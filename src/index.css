@@ -10,7 +10,7 @@
   body {
     @apply bg-dark text-white antialiased overflow-x-hidden font-sans;
   }
-  * {
+  .custom-cursor-active * {
     cursor: none !important;
   }
 }
