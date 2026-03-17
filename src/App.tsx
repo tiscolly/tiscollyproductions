@@ -83,7 +83,7 @@ const PROJECTS = [
     genre: "VIDEOCLIP AND EMOTIONAL",
     actors: [],
     category: "FILM",
-    videoUrl: "https://www.youtube.com/watch?v=0zO5BSrg864"
+    videoUrl: "https://www.youtube.com/embed/AT_6074UM3Y?si=gC2g9uUN0x3WZy5q"
   },
   {
     id: 2,
