@@ -874,7 +874,7 @@ function AboutPage() {
                 <ArrowRight size={14} className="text-white/80" />
               </div>
               <div className="text-base font-bold text-white mb-2 whitespace-nowrap">
-                olly@tiscollyproductions.it
+                info@tiscollyproductions.it
               </div>
             </motion.div>
 
@@ -1470,7 +1470,7 @@ function ContactSection() {
               <span className="text-[10px] uppercase tracking-widest font-bold">E-mail</span>
             </div>
             <p className="text-sm text-white/60 leading-relaxed font-bold">
-              olly@tiscollyproductions.it
+              info@tiscollyproductions.it
             </p>
           </motion.div>
 
@@ -1515,7 +1515,7 @@ function ContactSection() {
           </div>
 
           <a 
-            href="mailto:olly@tiscollyproductions.it"
+            href="mailto:info@tiscollyproductions.it"
             className="group relative inline-block"
           >
             <h3 className="text-7xl md:text-9xl font-display font-bold uppercase tracking-tighter leading-none transition-all duration-500 group-hover:italic group-hover:tracking-normal">
@@ -1843,7 +1843,7 @@ function AboutSection() {
                 <ArrowRight size={12} className="text-white/80" />
               </div>
               <div className="text-sm font-bold text-white mb-2 whitespace-nowrap">
-                olly@tiscollyproductions.it
+                info@tiscollyproductions.it
               </div>
             </motion.div>
 

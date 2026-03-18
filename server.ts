@@ -44,7 +44,7 @@ async function startServer() {
 
       const mailOptions = {
         from: emailUser,
-        to: "olly@tiscollyproductions.it",
+        to: "info@tiscollyproductions.it",
         subject: `Nuovo messaggio da ${name} - Tiscolly Productions`,
         text: `Nome: ${name}\n\nMessaggio:\n${message}`,
       };
