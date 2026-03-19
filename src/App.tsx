@@ -8,6 +8,8 @@ import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionV
 import { Play, ArrowRight, Menu, X, Instagram, Youtube, Music2, Twitter, Facebook, ChevronLeft, ChevronRight, MapPin, Phone, Mail } from 'lucide-react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 
+import { HelmetProvider, Helmet } from 'react-helmet-async';
+
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   useEffect(() => {
@@ -258,9 +260,11 @@ const PROJECTS = [
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 
@@ -719,6 +723,10 @@ function Home({ isInitialLoading, scrollToSection }: { isInitialLoading: boolean
 
   return (
     <div className="flex flex-col">
+      <Helmet>
+        <title>Tiscolly Productions | Home</title>
+        <meta name="description" content="Welcome to Tiscolly Productions. We elevate stories through cinematic motion and visionary design." />
+      </Helmet>
       <section id="home">
         <HeroSection isInitialLoading={isInitialLoading} scrollToSection={scrollToSection} />
       </section>
@@ -781,6 +789,10 @@ function AboutPage() {
 
   return (
     <div className="pt-32 pb-20 bg-dark min-h-screen relative overflow-hidden" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+      <Helmet>
+        <title>About Us | Tiscolly Productions</title>
+        <meta name="description" content="Learn more about Tiscolly Productions, our story, and our cinematic philosophy." />
+      </Helmet>
       {/* Dot Grid Background */}
       <div className="absolute inset-0 opacity-20 pointer-events-none" 
            style={{ 
@@ -798,14 +810,14 @@ function AboutPage() {
           >
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-white/20" />
-              <h1 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
                 Our Story
-              </h1>
+              </div>
             </div>
             
-            <h2 className="text-5xl md:text-8xl font-display font-bold tracking-tighter uppercase mb-12 leading-[0.9]">
+            <h1 className="text-5xl md:text-8xl font-display font-bold tracking-tighter uppercase mb-12 leading-[0.9]">
               We Don't Just Film.<br />We Create <span className="text-glow">Vortexes</span>.
-            </h2>
+            </h1>
 
             <div className="space-y-6 text-white/70 text-lg leading-relaxed max-w-xl mb-12">
               <p>
@@ -1131,7 +1143,11 @@ function ContactPage() {
 
   return (
     <div className="pt-20">
-      <ContactSection />
+      <Helmet>
+        <title>Contact Us | Tiscolly Productions</title>
+        <meta name="description" content="Get in touch with Tiscolly Productions for your next video production project in Italy." />
+      </Helmet>
+      <ContactSection isPage={true} />
     </div>
   );
 }
@@ -1143,12 +1159,16 @@ function PortfolioPage() {
 
   return (
     <div className="pt-20">
-      <PortfolioSection />
+      <Helmet>
+        <title>Portfolio | Tiscolly Productions</title>
+        <meta name="description" content="Explore our portfolio of cinematic films, editing, motion graphics, and photography." />
+      </Helmet>
+      <PortfolioSection isPage={true} />
     </div>
   );
 }
 
-function PortfolioSection() {
+function PortfolioSection({ isPage = false }: { isPage?: boolean }) {
   const [activeCategory, setActiveCategory] = useState('FILM');
   const categories = ['FILM', 'EDITING AND MOTION', 'GRAPHICS', 'PHOTO'];
 
@@ -1170,9 +1190,15 @@ function PortfolioSection() {
         >
           <div className="flex items-center gap-4">
             <div className="w-8 h-[1px] bg-white/20" />
-            <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
-              Portfolio
-            </h2>
+            {isPage ? (
+              <h1 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+                Portfolio
+              </h1>
+            ) : (
+              <h2 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
+                Portfolio
+              </h2>
+            )}
           </div>
           
           <div className="relative w-full md:w-fit group/scroll">
@@ -1401,7 +1427,7 @@ function CategorySection({ category }: { category: string }) {
   );
 }
 
-function ContactSection() {
+function ContactSection({ isPage = false }: { isPage?: boolean }) {
   const containerRef = useRef(null);
   const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
@@ -1434,9 +1460,15 @@ function ContactSection() {
         >
           <div className="w-1 h-20 bg-white mt-2" />
           <div>
-            <h2 className="text-5xl sm:text-6xl md:text-8xl font-display font-bold tracking-tighter uppercase leading-none">
-              Contacts
-            </h2>
+            {isPage ? (
+              <h1 className="text-5xl sm:text-6xl md:text-8xl font-display font-bold tracking-tighter uppercase leading-none">
+                Contacts
+              </h1>
+            ) : (
+              <h2 className="text-5xl sm:text-6xl md:text-8xl font-display font-bold tracking-tighter uppercase leading-none">
+                Contacts
+              </h2>
+            )}
           </div>
         </motion.div>
 
@@ -1884,6 +1916,10 @@ function CookiesPage() {
 
   return (
     <div className="pt-32 pb-20 px-6 md:px-12">
+      <Helmet>
+        <title>Cookie Policy | Tiscolly Productions</title>
+        <meta name="description" content="Read our cookie policy to understand how we use cookies on our website." />
+      </Helmet>
       <div className="container mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -1936,6 +1972,10 @@ function TermsPage() {
 
   return (
     <div className="pt-32 pb-20 px-6 md:px-12">
+      <Helmet>
+        <title>Terms & Conditions | Tiscolly Productions</title>
+        <meta name="description" content="Read our terms and conditions for using Tiscolly Productions services." />
+      </Helmet>
       <div className="container mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
