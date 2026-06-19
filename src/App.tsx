@@ -75,6 +75,19 @@ function CustomCursor() {
 
 const PROJECTS = [
   {
+    id: 15,
+    title: "Lacrimosa (Unplugged edition) - Walo",
+    description: "An intimate and raw studio performance of 'Lacrimosa', stripped down to its unplugged essence. Leonardo's emotional journey and spiritual rebirth are laid bare in this acoustic version, where the haunting melodies and powerful lyrics transform pain into pure, unfiltered art, capturing the soulful depth of his new identity as Walo.",
+    image: "https://i.postimg.cc/t4F31dkK/Screenshot-2026-06-20-alle-00-22-51.png",
+    premiere: "16 MARCH 2026",
+    director: "OLLY",
+    music: "TISCOLLYPRODUCTIONS\nSTRINGE",
+    genre: "VIDEOCLIP",
+    actors: [],
+    category: "FILM",
+    videoUrl: "https://www.youtube.com/embed/AT_6074UM3Y?si=gC2g9uUN0x3WZy5q"
+  },
+  {
     id: 1,
     title: "Lacrimosa - Walo",
     description: "Leonardo, shattered by a violent family reality and his own inner emptiness, hits rock bottom during a night of excess and delusions in Rome. Through a painful confrontation with himself and the power of music, he manages to fight back, driving out his mother's aggressor and transforming his pain into art. The conflict resolves in a liberating embrace, marking his spiritual rebirth and the birth of his new identity as Walo.",
@@ -99,19 +112,6 @@ const PROJECTS = [
     actors: ["IED STUDENTS"],
     category: "FILM",
     videoUrl: "https://www.youtube.com/watch?v=0zO5BSrg864"
-  },
-  {
-    id: 3,
-    title: "BEAUTY IN ACTION\nCREATED BY IMMAGINERIA",
-    description: "A hymn to beauty and its transformative power. Beauty in Action will be the core concept of the Milano Cortina 2026 Olympic Closing Ceremony. A tribute to beauty in motion, in all its forms—in sport, in life, in human relationships, and in places. For the first time in the history of the Games, the Closing Ceremony will take place inside a UNESCO World Heritage monument.",
-    image: "https://i.postimg.cc/v8ggMx7Y/Screenshot-2026-03-09-alle-18-53-35.png",
-    premiere: "6 NOVEMBER 2025",
-    director: "FILMMASTER",
-    music: "IMMAGINERIA\nFILMMASTER",
-    genre: "TEASER AND OLYMPICS",
-    actors: [],
-    category: "EDITING AND MOTION",
-    videoUrl: "https://www.youtube.com/watch?v=SyWfqhYoX70"
   },
   {
     id: 4,
@@ -203,19 +203,6 @@ const PROJECTS = [
     actors: [],
     category: "FILM",
     videoUrl: "https://www.youtube.com/watch?v=jf5v1t1B3U0"
-  },
-  {
-    id: 10,
-    title: "BONDS BY IQOS & BLENDS\nCREATED BY IMMAGINERIA",
-    description: "Immagineria takes the stage for the launch of Bonds by IQOS & Blends. We’ve transformed innovation into immersive motion design, capturing the sleek essence of the new device and the vibrant soul of its blends. Where technology meets pure visual energy.",
-    image: "https://i.postimg.cc/NMCM1Yp0/Screenshot-2026-03-11-alle-17-09-21.png",
-    premiere: "26 DECEMBER 2025",
-    director: "FILMMASTER",
-    music: "IMMAGINERIA\nFILMMASTER",
-    genre: "MOTION EVENT AND PRESENTATION",
-    actors: [],
-    category: "EDITING AND MOTION",
-    videoUrl: "https://www.behance.net/tiscollyproductions"
   },
   {
     id: 11,
