@@ -5,10 +5,32 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValue } from 'motion/react';
-import { Play, ArrowRight, Menu, X, Instagram, Youtube, Music2, Twitter, Facebook, ChevronLeft, ChevronRight, MapPin, Phone, Mail } from 'lucide-react';
+import { Play, ArrowRight, Menu, X, Instagram, Youtube, Music2, Twitter, Facebook, ChevronLeft, ChevronRight, MapPin, Phone, Mail, Linkedin } from 'lucide-react';
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { HelmetProvider, Helmet } from 'react-helmet-async';
+
+function Behance({ size = 20, className = "" }: { size?: number; className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      width={size}
+      height={size}
+    >
+      <path d="M21 13c0-1.65-1.35-3-3-3s-3 1.35-3 3 1.35 3 3 3c1.1 0 2.03-.6 2.65-1.5" />
+      <path d="M15 13h5.75" />
+      <path d="M3 7h4.5a2.5 2.5 0 0 1 0 5H3.5h3.5a2.5 2.5 0 0 1 0 5H3V7z" />
+      <path d="M16 6h4" />
+    </svg>
+  );
+}
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
@@ -85,7 +107,7 @@ const PROJECTS = [
     genre: "VIDEOCLIP",
     actors: [],
     category: "FILM",
-    videoUrl: "https://www.youtube.com/embed/AT_6074UM3Y?si=gC2g9uUN0x3WZy5q"
+    videoUrl: "https://www.youtube.com/watch?v=13Sg724dwlY"
   },
   {
     id: 1,
@@ -669,6 +691,24 @@ function AppContent() {
                 >
                   <Music2 size={20} />
                 </motion.a>
+                <motion.a 
+                  whileHover={isMobile ? {} : { y: -5, scale: 1.1 }}
+                  href="https://www.behance.net/tiscollyproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/40 hover:text-white transition-colors"
+                >
+                  <Behance size={20} />
+                </motion.a>
+                <motion.a 
+                  whileHover={isMobile ? {} : { y: -5, scale: 1.1 }}
+                  href="https://www.linkedin.com/company/tiscollyproductions/?viewAsMember=true"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/40 hover:text-white transition-colors"
+                >
+                  <Linkedin size={20} />
+                </motion.a>
               </div>
             </div>
           </div>
@@ -711,8 +751,8 @@ function Home({ isInitialLoading, scrollToSection }: { isInitialLoading: boolean
   return (
     <div className="flex flex-col">
       <Helmet>
-        <title>Tiscolly Productions | Home</title>
-        <meta name="description" content="Welcome to Tiscolly Productions. We elevate stories through cinematic motion and visionary design." />
+        <title>Tiscollyproductions | Creative agency</title>
+        <meta name="description" content="Tiscolly Productions is a creative agency in Italy specializing in cinematic motion, visionary design, and immersive storytelling." />
       </Helmet>
       <section id="home">
         <HeroSection isInitialLoading={isInitialLoading} scrollToSection={scrollToSection} />
@@ -888,7 +928,7 @@ function AboutPage() {
                 <span className="text-[10px] uppercase tracking-widest text-dark/40 font-bold">Follow Us</span>
                 <div className="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">LIVE</div>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center gap-3">
                 <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Instagram size={24} />
                 </motion.a>
@@ -897,6 +937,24 @@ function AboutPage() {
                 </motion.a>
                 <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Music2 size={24} />
+                </motion.a>
+                <motion.a 
+                  whileHover={isMobile ? {} : { scale: 1.2 }} 
+                  href="https://www.behance.net/tiscollyproductions" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-dark/80 hover:text-red-600 transition-colors"
+                >
+                  <Behance size={24} />
+                </motion.a>
+                <motion.a 
+                  whileHover={isMobile ? {} : { scale: 1.2 }} 
+                  href="https://www.linkedin.com/company/tiscollyproductions/?viewAsMember=true" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-dark/80 hover:text-red-600 transition-colors"
+                >
+                  <Linkedin size={24} />
                 </motion.a>
               </div>
             </motion.div>
@@ -1514,6 +1572,22 @@ function ContactSection({ isPage = false }: { isPage?: boolean }) {
               <a href="#" className="text-white/40 hover:text-white transition-colors">
                 <Music2 size={18} />
               </a>
+              <a 
+                href="https://www.behance.net/tiscollyproductions" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/40 hover:text-white transition-colors"
+              >
+                <Behance size={18} />
+              </a>
+              <a 
+                href="https://www.linkedin.com/company/tiscollyproductions/?viewAsMember=true" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/40 hover:text-white transition-colors"
+              >
+                <Linkedin size={18} />
+              </a>
             </div>
           </motion.div>
         </div>
@@ -1877,7 +1951,7 @@ function AboutSection() {
                 <span className="text-[10px] uppercase tracking-widest text-dark/40 font-bold">Follow Us</span>
                 <div className="bg-red-600 text-white text-[8px] px-1.5 py-0.5 rounded-full font-bold">LIVE</div>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center gap-3">
                 <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Instagram size={20} />
                 </motion.a>
@@ -1886,6 +1960,24 @@ function AboutSection() {
                 </motion.a>
                 <motion.a whileHover={isMobile ? {} : { scale: 1.2 }} href="#" className="text-dark/80 hover:text-red-600 transition-colors">
                   <Music2 size={20} />
+                </motion.a>
+                <motion.a 
+                  whileHover={isMobile ? {} : { scale: 1.2 }} 
+                  href="https://www.behance.net/tiscollyproductions" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-dark/80 hover:text-red-600 transition-colors"
+                >
+                  <Behance size={20} />
+                </motion.a>
+                <motion.a 
+                  whileHover={isMobile ? {} : { scale: 1.2 }} 
+                  href="https://www.linkedin.com/company/tiscollyproductions/?viewAsMember=true" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-dark/80 hover:text-red-600 transition-colors"
+                >
+                  <Linkedin size={20} />
                 </motion.a>
               </div>
             </motion.div>
