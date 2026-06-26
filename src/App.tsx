@@ -97,11 +97,24 @@ function CustomCursor() {
 
 const PROJECTS = [
   {
+    id: 16,
+    title: "Vocali (Visuals) - Walo",
+    description: "An intimate and unfiltered visual exploration of desire, vulnerability, and modern relationships. Translated from the raw honesty of late-night voice notes, the visualizer captures the visceral nuances of human connection and attraction, wrapping Walo's explicit storytelling in hypnotic, atmospheric imagery.",
+    image: "https://i.postimg.cc/kGJyjtrP/Timeline-2-01-03-19-08.jpg",
+    premiere: "26 JUNE 2026",
+    director: "OLLY",
+    music: "TISCOLLYPRODUCTIONS\nSTRINGE",
+    genre: "VISUALS RAP",
+    actors: [],
+    category: "FILM",
+    videoUrl: "https://www.youtube.com/watch?v=lMR1HhEvk8Y"
+  },
+  {
     id: 15,
     title: "Lacrimosa (Unplugged edition) - Walo",
     description: "An intimate and raw studio performance of 'Lacrimosa', stripped down to its unplugged essence. Leonardo's emotional journey and spiritual rebirth are laid bare in this acoustic version, where the haunting melodies and powerful lyrics transform pain into pure, unfiltered art, capturing the soulful depth of his new identity as Walo.",
     image: "https://i.postimg.cc/t4F31dkK/Screenshot-2026-06-20-alle-00-22-51.png",
-    premiere: "16 MARCH 2026",
+    premiere: "29 MAY 2026",
     director: "OLLY",
     music: "TISCOLLYPRODUCTIONS\nSTRINGE",
     genre: "VIDEOCLIP",
