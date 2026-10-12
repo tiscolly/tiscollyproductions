@@ -9,6 +9,8 @@ import { Play, ArrowRight, Menu, X, Instagram, Youtube, Music2, Twitter, Faceboo
 import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { HelmetProvider, Helmet } from 'react-helmet-async';
+import TransferPage from './pages/TransferPage';
+import DownloadPage from './pages/DownloadPage';
 
 function Behance({ size = 20, className = "" }: { size?: number; className?: string }) {
   return (
@@ -431,10 +433,12 @@ function InitialLoader() {
 function AppContent() {
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
-  const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
   const navigate = useNavigate();
+
+  const isTransferRoute = location.pathname.startsWith('/transfer') || location.pathname.startsWith('/t/');
+  const [isInitialLoading, setIsInitialLoading] = useState(() => !isTransferRoute);
+  const [activeSection, setActiveSection] = useState('home');
 
   const scrollToSection = (id: string) => {
     if (location.pathname !== '/') {
@@ -451,11 +455,15 @@ function AppContent() {
 
   // Initial loading timer
   useEffect(() => {
+    if (isTransferRoute) {
+      setIsInitialLoading(false);
+      return;
+    }
     const timer = setTimeout(() => {
       setIsInitialLoading(false);
     }, 2000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [isTransferRoute]);
 
   // Update active section on scroll (only on home page)
   useEffect(() => {
@@ -638,6 +646,16 @@ function AppContent() {
             <Route path="/terms" element={
               <PageWrapper>
                 <TermsPage />
+              </PageWrapper>
+            } />
+            <Route path="/transfer" element={
+              <PageWrapper>
+                <TransferPage />
+              </PageWrapper>
+            } />
+            <Route path="/t/:id" element={
+              <PageWrapper>
+                <DownloadPage />
               </PageWrapper>
             } />
           </Routes>
