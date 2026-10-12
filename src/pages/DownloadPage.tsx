@@ -93,7 +93,7 @@ export default function DownloadPage() {
   return (
     <div className="min-h-screen pt-28 pb-24 px-6 md:px-12 flex flex-col justify-between relative overflow-hidden bg-dark">
       <Helmet>
-        <title>{fileData ? `${fileData.filename} | Tiscolly Transfer` : 'Download File | Tiscolly Transfer'}</title>
+        <title>{fileData ? `${fileData.filename} • Il tuo progetto è pronto | Tiscolly Transfer` : 'Ecco a te il tuo nuovo progetto | Tiscolly Transfer'}</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
@@ -105,15 +105,16 @@ export default function DownloadPage() {
       <div className="container mx-auto max-w-xl relative z-10 my-auto">
         {/* Header Branding */}
         <div className="text-center mb-10">
-          <Link to="/" className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-white/10 mb-4 text-[10px] font-bold uppercase tracking-[0.25em] text-white/60 hover:text-white transition-colors">
-            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-            Tiscolly Transfer
+          <Link to="/" className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass border-white/10 mb-4 text-[10px] font-bold uppercase tracking-[0.25em] text-white/70 hover:text-white transition-colors">
+            <Sparkles size={12} className="text-amber-400" />
+            <span>Tiscolly Productions • Consegna Progetto</span>
           </Link>
           <h1 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight text-white">
-            Ready to <span className="italic font-light">Download</span>
+            Ecco a te il tuo <br className="hidden sm:inline" />
+            <span className="italic font-light">nuovo progetto</span>
           </h1>
-          <p className="text-white/40 text-sm mt-3 max-w-md mx-auto leading-relaxed">
-            Un file pronto per te dai server ad alta prestazione di Tiscolly Productions.
+          <p className="text-white/60 text-sm md:text-base mt-3 max-w-lg mx-auto leading-relaxed">
+            Grazie per averci scelto! Il tuo lavoro è pronto per il download ad altissima qualità.
           </p>
         </div>
 
@@ -198,7 +199,12 @@ export default function DownloadPage() {
             className="glass backdrop-blur-2xl p-8 md:p-10 rounded-[32px] border border-white/10 shadow-2xl relative overflow-hidden"
           >
             {/* File Showcase Card */}
-            <div className="flex flex-col items-center text-center p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10 mb-8">
+            <div className="flex flex-col items-center text-center p-6 md:p-8 rounded-2xl bg-white/[0.03] border border-white/10 mb-8 relative overflow-hidden">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-300 text-[11px] font-semibold mb-5">
+                <Sparkles size={12} className="shrink-0" />
+                <span>File pronto per il download</span>
+              </div>
+
               <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-5 shadow-xl">
                 {getFileIcon(fileData.filename, fileData.contentType)}
               </div>
@@ -239,7 +245,7 @@ export default function DownloadPage() {
                 className="w-full py-5 bg-white text-dark rounded-2xl font-display font-bold text-sm uppercase tracking-widest hover:bg-opacity-90 active:scale-[0.99] transition-all shadow-xl shadow-white/5 flex items-center justify-center gap-3 group"
               >
                 <Download size={18} className="group-hover:translate-y-0.5 transition-transform" />
-                <span>Scarica File</span>
+                <span>Scarica il tuo progetto</span>
               </a>
 
               <p className="text-center text-[11px] text-white/30 flex items-center justify-center gap-1.5">

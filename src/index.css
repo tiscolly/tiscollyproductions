@@ -7,11 +7,23 @@
 }
 
 @layer base {
+  html,
   body {
-    @apply bg-dark text-white antialiased overflow-x-hidden font-sans;
+    overflow-x: hidden;
+  }
+  body {
+    @apply bg-dark text-white antialiased font-sans;
   }
   .custom-cursor-active * {
     cursor: none !important;
+  }
+  @media (pointer: coarse) {
+    .custom-cursor-active * {
+      cursor: auto !important;
+    }
+    .custom-cursor-el {
+      display: none !important;
+    }
   }
 }
 

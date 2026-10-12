@@ -45,36 +45,76 @@ function useIsMobile() {
 }
 
 function CustomCursor() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const targetRef = useRef({ x: -100, y: -100 });
+  const posRef = useRef({ x: -100, y: -100 });
+  const scaleRef = useRef(1);
+  const isHoveringRef = useRef(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Check if device has a fine pointer (mouse)
-    const isTouchDevice = !window.matchMedia('(pointer: fine)').matches;
-    if (isTouchDevice) return;
+    // Check if device is touch / coarse pointer
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    if (isTouchDevice) {
+      return;
+    }
 
     setIsVisible(true);
     document.body.classList.add('custom-cursor-active');
 
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
+    let hasMoved = false;
+    let rafId: number;
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.tagName === 'BUTTON' || target.tagName === 'A' || target.closest('button') || target.closest('a') || target.classList.contains('cursor-pointer')) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
+    const handleMouseMove = (e: MouseEvent) => {
+      targetRef.current.x = e.clientX;
+      targetRef.current.y = e.clientY;
+
+      if (!hasMoved) {
+        hasMoved = true;
+        posRef.current.x = e.clientX;
+        posRef.current.y = e.clientY;
+        if (cursorRef.current) {
+          cursorRef.current.style.opacity = '1';
+        }
+      }
+
+      const target = e.target as HTMLElement | null;
+      if (target) {
+        const isInteractive = Boolean(
+          target.tagName === 'BUTTON' ||
+          target.tagName === 'A' ||
+          target.closest?.('button') ||
+          target.closest?.('a') ||
+          target.classList?.contains('cursor-pointer') ||
+          (window.getComputedStyle(target).cursor === 'pointer')
+        );
+        isHoveringRef.current = isInteractive;
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
+    const updateLoop = () => {
+      posRef.current.x += (targetRef.current.x - posRef.current.x) * 0.2;
+      posRef.current.y += (targetRef.current.y - posRef.current.y) * 0.2;
+
+      const targetScale = isHoveringRef.current ? 2.5 : 1;
+      scaleRef.current += (targetScale - scaleRef.current) * 0.2;
+
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0) translate(-50%, -50%) scale(${scaleRef.current.toFixed(4)})`;
+        cursorRef.current.style.backgroundColor = isHoveringRef.current
+          ? 'rgba(255, 255, 255, 0.2)'
+          : 'rgba(255, 255, 255, 0.05)';
+      }
+
+      rafId = requestAnimationFrame(updateLoop);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    rafId = requestAnimationFrame(updateLoop);
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseover', handleMouseOver);
+      cancelAnimationFrame(rafId);
       document.body.classList.remove('custom-cursor-active');
     };
   }, []);
@@ -82,18 +122,18 @@ function CustomCursor() {
   if (!isVisible) return null;
 
   return (
-    <motion.div
-      className="fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-[9999] glass flex items-center justify-center mix-blend-difference"
-      animate={{
-        x: mousePos.x - 16,
-        y: mousePos.y - 16,
-        scale: isHovering ? 2.5 : 1,
-        backgroundColor: isHovering ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+    <div
+      ref={cursorRef}
+      className="custom-cursor-el fixed top-0 left-0 w-8 h-8 rounded-full pointer-events-none z-[9999] glass flex items-center justify-center mix-blend-difference"
+      style={{
+        opacity: 0,
+        transform: 'translate3d(-100px, -100px, 0) translate(-50%, -50%)',
+        willChange: 'transform',
+        transition: 'background-color 0.2s ease, opacity 0.2s ease',
       }}
-      transition={{ type: 'spring', damping: 20, stiffness: 250, mass: 0.5 }}
     >
-      <div className="w-1 h-1 bg-white rounded-full" />
-    </motion.div>
+      <div className="w-1 h-1 bg-white rounded-full pointer-events-none" />
+    </div>
   );
 }
 
