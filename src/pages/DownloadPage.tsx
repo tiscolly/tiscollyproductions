@@ -15,10 +15,36 @@ import {
   HardDrive, 
   ArrowLeft,
   Calendar,
-  Sparkles
+  Sparkles,
+  Instagram,
+  Youtube,
+  Linkedin,
+  Mail
 } from 'lucide-react';
 import { API_BASE } from '../config';
 import { formatBytes, formatItalianDate } from '../utils/transfer';
+
+function Behance({ size = 15, className = "" }: { size?: number; className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      width={size}
+      height={size}
+    >
+      <path d="M21 13c0-1.65-1.35-3-3-3s-3 1.35-3 3 1.35 3 3 3c1.1 0 2.03-.6 2.65-1.5" />
+      <path d="M15 13h5.75" />
+      <path d="M3 7h4.5a2.5 2.5 0 0 1 0 5H3.5h3.5a2.5 2.5 0 0 1 0 5H3V7z" />
+      <path d="M16 6h4" />
+    </svg>
+  );
+}
 
 interface FileMetadata {
   id: string;
@@ -252,6 +278,73 @@ export default function DownloadPage() {
                 <ShieldCheck size={13} className="text-emerald-400" />
                 <span>Download diretto ad alta velocità senza limiti di banda</span>
               </p>
+            </div>
+
+            {/* Social & Community Callout */}
+            <div className="mt-8 pt-6 border-t border-white/10 text-center">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-600/10 border border-red-500/20 text-red-400 text-[10px] font-bold uppercase tracking-wider mb-2.5">
+                <span>🔥 Non fare il timido, seguici!</span>
+              </div>
+              <p className="text-xs text-white/70 max-w-sm mx-auto leading-relaxed mb-4">
+                Mentre il download va a bomba, vieni a farti un giro sui nostri social: spoiler, backstage e progetti fuori di testa!
+              </p>
+              <div className="flex items-center justify-center gap-3 flex-wrap">
+                <a
+                  href="https://www.instagram.com/tiscollyproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-all text-xs font-semibold group active:scale-95"
+                >
+                  <Instagram size={15} className="text-pink-400 group-hover:scale-110 transition-transform" />
+                  <span>Instagram</span>
+                </a>
+                <a
+                  href="https://www.youtube.com/@tiscollyproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-all text-xs font-semibold group active:scale-95"
+                >
+                  <Youtube size={15} className="text-red-500 group-hover:scale-110 transition-transform" />
+                  <span>YouTube</span>
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/tiscollyproductions/?viewAsMember=true"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-all text-xs font-semibold group active:scale-95"
+                >
+                  <Linkedin size={15} className="text-sky-400 group-hover:scale-110 transition-transform" />
+                  <span>LinkedIn</span>
+                </a>
+                <a
+                  href="https://www.behance.net/tiscollyproductions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-all text-xs font-semibold group active:scale-95"
+                >
+                  <Behance size={15} className="text-blue-400 group-hover:scale-110 transition-transform" />
+                  <span>Behance</span>
+                </a>
+              </div>
+
+              {/* Start another project / Email callout */}
+              <div className="mt-6 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-left bg-white/[0.02] p-4 rounded-xl border border-white/5">
+                <div>
+                  <p className="text-xs font-semibold text-white/90">
+                    Vuoi avviare un altro progetto con noi?
+                  </p>
+                  <p className="text-[11px] text-white/50">
+                    Hai un'altra idea, un nuovo video o vuoi fare due chiacchiere? Scrivici!
+                  </p>
+                </div>
+                <a
+                  href="mailto:info@tiscollyproductions.it?subject=Nuovo%20progetto%20con%20Tiscolly"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 hover:text-red-300 text-xs font-bold transition-all whitespace-nowrap active:scale-95 group"
+                >
+                  <Mail size={14} className="group-hover:scale-110 transition-transform" />
+                  <span>info@tiscollyproductions.it</span>
+                </a>
+              </div>
             </div>
           </motion.div>
         )}
